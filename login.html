@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+</head>
+<body>
+
+<h2>Login</h2>
+
+<input id="email" placeholder="Email"><br><br>
+<input id="password" type="password" placeholder="Password"><br><br>
+
+<button onclick="login()">Login</button>
+
+<p id="msg"></p>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword } 
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBUQ9_cgFhTSzAF4gxq0OOSpcoRrxqmV7w",
+  authDomain: "church-directory-d9624.firebaseapp.com",
+  projectId: "church-directory-d9624",
+  storageBucket: "church-directory-d9624.firebasestorage.app",
+  messagingSenderId: "245172853071",
+  appId: "1:245172853071:web:368fd886823c58cdb0cd3a"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+window.login = function () {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  signInWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      window.location.href = "index.html";
+    })
+    .catch(err => {
+      document.getElementById("msg").innerText = err.message;
+    });
+};
+</script>
+
+</body>
+</html>
