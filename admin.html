@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel</title>
+</head>
+<body>
+
+<h1>Admin Panel</h1>
+
+<p>Restricted access</p>
+
+<button onclick="logout()">Logout</button>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } 
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBUQ9_cgFhTSzAF4gxq0OOSpcoRrxqmV7w",
+  authDomain: "church-directory-d9624.firebaseapp.com",
+  projectId: "church-directory-d9624",
+  storageBucket: "church-directory-d9624.firebasestorage.app",
+  messagingSenderId: "245172853071",
+  appId: "1:245172853071:web:368fd886823c58cdb0cd3a"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const ADMIN_EMAIL = "youradmin@gmail.com";
+
+onAuthStateChanged(auth, user => {
+  if (!user) {
+    window.location.href = "login.html";
+  } 
+  else if (user.email !== ADMIN_EMAIL) {
+    alert("Admin only access");
+    window.location.href = "index.html";
+  }
+});
+
+window.logout = function () {
+  signOut(auth).then(() => {
+    window.location.href = "login.html";
+  });
+};
+</script>
+
+</body>
+</html>
