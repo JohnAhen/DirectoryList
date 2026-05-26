@@ -1,77 +1,163 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
- 
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Directory Login</title>
+
   <!-- reCAPTCHA -->
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background: linear-gradient(135deg, #0f172a, #1e293b);
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
+      padding: 20px;
       color: white;
     }
 
     .card {
-      background: rgba(255,255,255,0.06);
-      padding: 30px;
-      border-radius: 16px;
-      width: 340px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      width: 100%;
+      max-width: 380px;
+      background: rgba(255,255,255,0.07);
+      padding: 28px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      backdrop-filter: blur(12px);
       text-align: center;
-      backdrop-filter: blur(10px);
+    }
+
+    .logo {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 15px;
+      border: 2px solid rgba(255,255,255,0.2);
     }
 
     h2 {
-      margin-bottom: 5px;
+      margin: 0;
+      font-size: 28px;
+      font-weight: bold;
     }
 
-    p {
-      font-size: 12px;
-      opacity: 0.7;
-      margin-bottom: 20px;
+    .subtitle {
+      font-size: 14px;
+      opacity: 0.75;
+      margin-top: 8px;
+      margin-bottom: 25px;
+      line-height: 1.5;
+    }
+
+    .input-group {
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      opacity: 0.9;
     }
 
     input {
       width: 100%;
-      padding: 12px;
-      margin: 8px 0;
+      padding: 14px;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       outline: none;
+      font-size: 15px;
+      background: rgba(255,255,255,0.12);
+      color: white;
+    }
+
+    input::placeholder {
+      color: rgba(255,255,255,0.6);
     }
 
     button {
       width: 100%;
-      padding: 12px;
+      padding: 14px;
       background: #3b82f6;
       color: white;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
+      font-size: 16px;
       font-weight: bold;
       cursor: pointer;
-      margin-top: 10px;
+      transition: 0.3s ease;
+      margin-top: 18px;
     }
 
     button:hover {
       background: #2563eb;
+      transform: translateY(-1px);
     }
 
     .msg {
-      margin-top: 10px;
-      font-size: 13px;
-      color: #f87171;
+      margin-top: 14px;
+      font-size: 14px;
+      color: #fca5a5;
+      min-height: 18px;
     }
 
     .g-recaptcha {
-      margin-top: 10px;
+      margin-top: 12px;
       display: flex;
       justify-content: center;
+      transform-origin: center;
+    }
+
+    .footer {
+      margin-top: 18px;
+      font-size: 12px;
+      opacity: 0.55;
+    }
+
+    /* Mobile Optimization */
+    @media (max-width: 480px) {
+      body {
+        padding: 15px;
+      }
+
+      .card {
+        padding: 22px;
+        border-radius: 16px;
+      }
+
+      h2 {
+        font-size: 24px;
+      }
+
+      .subtitle {
+        font-size: 13px;
+      }
+
+      input {
+        padding: 13px;
+        font-size: 14px;
+      }
+
+      button {
+        padding: 13px;
+        font-size: 15px;
+      }
+
+      .g-recaptcha {
+        transform: scale(0.92);
+      }
     }
   </style>
 </head>
@@ -79,24 +165,48 @@
 <body>
 
 <div class="card">
-  <h2>Directory Login</h2>
-  <p>Secure access required</p>
 
-  <input id="email" type="email" placeholder="Email">
-  <input id="password" type="password" placeholder="Password">
+  <!-- Optional Logo -->
+  <!-- Replace with your logo -->
+  <!-- <img src="logo.png" class="logo"> -->
+
+  <h2>Directory Login</h2>
+
+  <div class="subtitle">
+    Secure access required to continue
+  </div>
+
+  <div class="input-group">
+    <label>Email</label>
+    <input id="email" type="email" placeholder="Enter your email">
+  </div>
+
+  <div class="input-group">
+    <label>Password</label>
+    <input id="password" type="password" placeholder="Enter your password">
+  </div>
 
   <!-- CAPTCHA -->
-  <div class="g-recaptcha" data-sitekey="6LedqvwsAAAAAEN5btMAlWh_0GvYOfsryKGILrty"></div>
+  <div class="g-recaptcha"
+       data-sitekey="6LedqvwsAAAAAEN5btMAlWh_0GvYOfsryKGILrty">
+  </div>
 
   <button onclick="login()">Login</button>
 
   <div class="msg" id="msg"></div>
+
+  <div class="footer">
+    Protected by Firebase Authentication
+  </div>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword } 
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+import {
+  getAuth,
+  signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBUQ9_cgFhTSzAF4gxq0OOSpcoRrxqmV7w",
@@ -110,26 +220,39 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-window.login = function () {
+window.login = async function () {
+
+  const msg = document.getElementById("msg");
+
+  msg.innerText = "";
 
   const captcha = grecaptcha.getResponse();
 
   if (!captcha) {
-    document.getElementById("msg").innerText = "Please complete CAPTCHA";
+    msg.innerText = "Please complete CAPTCHA";
     return;
   }
 
-  const email = document.getElementById("email").value;
+  const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
 
-  signInWithEmailAndPassword(auth, email, password)
-    .then(() => {
-      window.location.href = "index.html";
-    })
-    .catch(err => {
-      document.getElementById("msg").innerText = err.message;
-      grecaptcha.reset();
-    });
+  if (!email || !password) {
+    msg.innerText = "Please enter email and password";
+    return;
+  }
+
+  try {
+
+    await signInWithEmailAndPassword(auth, email, password);
+
+    window.location.href = "index.html";
+
+  } catch (err) {
+
+    msg.innerText = err.message;
+
+    grecaptcha.reset();
+  }
 };
 </script>
 
